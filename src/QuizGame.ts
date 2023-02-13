@@ -6,7 +6,7 @@ export class QuizGame {
     readonly questions: Question[] = [];
     readonly answers: Option[] = [];
 
-    constructor(readonly questionCount: number, readonly generator: QuestionGenerator, readonly topic: string) {
+    constructor(readonly questionCount: number, readonly generator: QuestionGenerator, readonly topics: string[]) {
     }
 
     async nextQuestion() {
@@ -14,8 +14,10 @@ export class QuizGame {
         if (this.isComplete()) {
             return null;
         }
+
+        const index = Math.floor(this.topics.length * Math.random());
         
-        const q = await this.generator.generateQuestion(this.topic);
+        const q = await this.generator.generateQuestion(this.topics[index]);
         this.questions.push(q);
         return q;
     }

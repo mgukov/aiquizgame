@@ -11,7 +11,9 @@ import { QuizGame } from "./QuizGame";
 async function createGame() {
     const key =  await (await fetch('./openai.key')).text();
     const generator =  new QuestionGenerator(key, 'test');
-    const game = new QuizGame(5, generator, 'software development');
+
+    const topisc = ['NFL', 'NBA', 'NHL', 'Soccer', 'World History', 'Architecture', 'Climate', 'Space', 'Humor', 'Hollywood', 'TV', 'Books'];
+    const game = new QuizGame(5, generator, topisc);
     return game;
 }
 
