@@ -6,9 +6,9 @@ import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
 import { StyledComponent } from "@emotion/styled";
 
-export const QuestionView = ({question}: {question: Question}) => {
-    const [error, setError] = useState<string | null>(null);
-    const [intervalValue, setIntervalValue] = useState('10');
+export const QuestionView = ({question, onChange}: {question: Question, onChange: (v:string) => void}) => {
+    const [selected, setSelected] = useState<string | null>(null);
+    const [currQuestion, setCurrQuestion] = useState<Question | null>(null);
 
     // useEffect(() => {
     //     setIntervalValue('');
@@ -35,7 +35,7 @@ export const QuestionView = ({question}: {question: Question}) => {
     var items: ReactNode[] = [];
     
     for (const opt of question.options) {
-        items.push(<Item key={opt.text}><FormControlLabel control={<Radio></Radio>} label={opt.text} value={opt.text}></FormControlLabel></Item>)
+        items.push(<Item key={opt.text}><FormControlLabel control={<Radio></Radio>} label={opt.text} value={opt.letter}></FormControlLabel></Item>)
     }
 
     return (<Box sx={{ width: '100%' }}
@@ -43,17 +43,17 @@ export const QuestionView = ({question}: {question: Question}) => {
     justifyContent="center"
     alignItems="center">
         <Box sx={{ width: '80%' }} >
-
             <Stack spacing={1} >
                 <QuestionItem>{question.text}</QuestionItem>
-                <RadioGroup
+                <RadioGroup onChange={(x, y) => { 
+                    onChange(y); 
+                    setSelected(y); 
+                    setCurrQuestion(question);
+                }} value={currQuestion === question ? selected : null}
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-            >
-                {items}
-            </RadioGroup>
-                    
+                    name="radio-buttons-group">
+                        {items}
+                </RadioGroup> 
             </Stack>
         </Box></Box>
         );
