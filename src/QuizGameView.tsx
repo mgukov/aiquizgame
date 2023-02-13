@@ -33,7 +33,7 @@ const QuestionRenderer = (onClick: () => void, calueChanged: (v: string) => void
 }
 
 const ResultRenderer = (result: Number) => {
-    return (<Paper><>Game completed, your result is {result} %</></Paper>);
+    return (<Paper><>Game over, your score is {result} %</></Paper>);
 }
 
 const StartGameRenderer = (onClick: () => void) => {
