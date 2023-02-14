@@ -30,7 +30,7 @@ export class QuestionGenerator {
 
         const response = await this.openai.createCompletion({
             model: "text-davinci-003",
-            prompt: `generate quiz trivia question with four possible answers on ${topic} topic, use next format: Q: question text, write each possible answer on the new line, start it with uppercase letter and one dot, for example, "A. answer optioin", write correct answer in the last line with "Answer:"`,
+            prompt: `generate quiz trivia question with four variant answers on ${topic} topic and only one answer must be correct, use next format: Q: question text, write each possible answer on the new line, start it with uppercase letter and one dot, for example, "A. answer optioin", write correct answer letter in the last line with "Answer:"`,
             temperature: 1,
             max_tokens: 100,
             top_p: 1,

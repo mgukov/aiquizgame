@@ -6,6 +6,7 @@ import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
 import { QuestionView } from "./QuestionView";
 import { QuizGame } from "./QuizGame";
+import { AnswerView } from "./AnswerView";
 
 
 async function createGame() {
@@ -24,11 +25,19 @@ const Btn = styled(Button)(({ theme }) => ({
 }));
 
 
-const QuestionRenderer = (onClick: () => void, calueChanged: (v: string) => void, question: Question, game: QuizGame) => {
+const QuestionRenderer = (answer: string|null, question: Question, game: QuizGame, onClick: () => void, calueChanged: (v: string) => void) => {
     return  (<Stack>
         <p>Question {game.getCurrentQuestionNum()} of {game.questionCount}</p>
-        <QuestionView question={question} onChange={v => calueChanged(v)}/>
-        <Btn onClick={() => onClick()}>Next question</Btn>
+        <QuestionView question={question} onChange={v => calueChanged(v)} answer={answer}/>
+        <Btn disabled={answer == null} onClick={() => onClick()}>Answer</Btn>
+    </Stack>);
+}
+
+const AnswerRenderer = (answer: string, right: string, question: Question, game: QuizGame, onClick: () => void) => {
+    return  (<Stack>
+        <p>Question {game.getCurrentQuestionNum()} of {game.questionCount}</p>
+        <AnswerView question={question} answer={answer} right={right}/>
+        <Btn onClick={() => onClick()}>{game.isComplete() ? "Finish" : "Next question"}</Btn>
     </Stack>);
 }
 
@@ -46,11 +55,8 @@ export const QuizGameView = ({}: {}) => {
     const [question, setQuestion] = useState<Question | null>(null);
     const [activity, setActivity] = useState<boolean>(false);
     const [answer, setAnswer] = useState<string|null>(null);
+    const [selectedAnswer, setSelectedAnswer] = useState<string|null>(null);
     const [complete, setCompletey] = useState<boolean>(false);
-
-    // useEffect(() => {
-    //     setIntervalValue('');
-    // }, [currentInterval]);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -77,8 +83,16 @@ export const QuizGameView = ({}: {}) => {
                 setQuestion(q);
             });
         }
+    } else if (answer == null) {
+        gameView = QuestionRenderer(selectedAnswer, question, game!, async () => {
+            if (game) {
+                setAnswer(selectedAnswer);
+                setCompletey(game.isComplete());
+                setSelectedAnswer(null)
+            }
+        }, v => setSelectedAnswer(v));
     } else {
-        gameView = QuestionRenderer(async () => {
+        gameView = AnswerRenderer(answer, question.answer!.letter, question, game!, async () => {
             setActivity(true);
             if (game) {
                 if (answer) {
@@ -89,7 +103,8 @@ export const QuizGameView = ({}: {}) => {
                 setQuestion(q);
             }
             setActivity(false);
-        }, v => setAnswer(v), question, game!);
+            setAnswer(null);
+        });
     }
 
     const m = (<Backdrop

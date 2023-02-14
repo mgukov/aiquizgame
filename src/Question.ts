@@ -35,12 +35,13 @@ export function  parseQuestion(text: string) {
                 const option = parseOption(optString);
                 if (option != null) {
                     question.addOption(option);
-                    console.log(`Add option ${optString}`);
+                    console.log(`Add option ${option.toString()}`);
                 }
         }
 
-        if (l.trim().startsWith('Answer')) {
-            question.answer = parseOption(l.trim());;
+        if (l.trim().startsWith('Answer:')) {
+            question.answer = parseOption(l.trim().slice(8));
+            console.log(`Add answer ${question.answer.toString()}`);
         }
     }
     
@@ -62,5 +63,9 @@ export class Question {
 
 export class Option {
     constructor(readonly text: string, readonly letter: string) {
+    }
+
+    toString() {
+        return `opt {text: ${this.text}, letter: ${this.letter}}`;
     }
 }

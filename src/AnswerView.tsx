@@ -6,10 +6,11 @@ import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
 import { StyledComponent } from "@emotion/styled";
 
-export const QuestionView = ({question, answer, onChange}: {question: Question, answer: string|null, onChange: (v:string) => void}) => {
+export const AnswerView = ({question, answer, right}: {question: Question, answer: string, right: string}) => {
+
     // useEffect(() => {
     //     setIntervalValue('');
-    // }, [currentInterval]);
+    // }, [currentInterva]);
 
     const QuestionItem = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,7 +33,8 @@ export const QuestionView = ({question, answer, onChange}: {question: Question, 
     var items: ReactNode[] = [];
     
     for (const opt of question.options) {
-        items.push(<Item key={opt.text}><FormControlLabel control={<Radio></Radio>} label={opt.text} value={opt.letter}></FormControlLabel></Item>)
+        const isAnswer = opt.letter === right;
+        items.push(<Item sx= {isAnswer ? {backgroundColor: '#aaffaa'} : {}} key={opt.text}><FormControlLabel control={<Radio></Radio>} label={opt.text} value={opt.letter}></FormControlLabel></Item>)
     }
 
     return (<Box sx={{ width: '100%' }}
@@ -42,9 +44,7 @@ export const QuestionView = ({question, answer, onChange}: {question: Question, 
         <Box sx={{ width: '80%' }} >
             <Stack spacing={1} >
                 <QuestionItem>{question.text}</QuestionItem>
-                <RadioGroup onChange={(x, y) => { 
-                    onChange(y); 
-                }} value={answer}
+                <RadioGroup value={answer}
                     aria-labelledby="demo-radio-buttons-group-label"
                     name="radio-buttons-group">
                         {items}
