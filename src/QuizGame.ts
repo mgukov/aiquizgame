@@ -17,9 +17,17 @@ export class QuizGame {
 
         const index = Math.floor(this.topics.length * Math.random());
         
-        const q = await this.generator.generateQuestion(this.topics[index]);
-        this.questions.push(q);
-        return q;
+        var q: Question|null = null
+        while (q == null) {
+            try {
+                const q = await this.generator.generateQuestion(this.topics[index]);
+                this.questions.push(q);
+                return q;
+            } catch (err) {
+                console.log(err);
+            }
+            await new Promise(r => setTimeout(r, 1000));
+        }
     }
 
 
