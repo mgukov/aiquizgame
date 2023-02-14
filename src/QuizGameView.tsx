@@ -80,7 +80,7 @@ export const QuizGameView = ({}: {}) => {
                 setActivity(false);
         
                 setGame(game);
-                setQuestion(q);
+                setQuestion(q!);
             });
         }
     } else if (answer == null) {
@@ -100,7 +100,7 @@ export const QuizGameView = ({}: {}) => {
                 }
                 const q = await game!.nextQuestion();
                 setCompletey(game!.isComplete());
-                setQuestion(q);
+                setQuestion(q!);
             }
             setActivity(false);
             setAnswer(null);
