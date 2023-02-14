@@ -13,7 +13,7 @@ export function  parseQuestion(text: string) {
 
     for (const l of lines) {
         if (l.trim().startsWith('Q:')) {
-            q = l.trim().slice(3);
+            q = l.trim().slice(2);
             break;
         }
     }
