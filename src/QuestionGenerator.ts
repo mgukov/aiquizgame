@@ -1,5 +1,5 @@
 import { Configuration, CreateCompletionResponse, OpenAIApi } from "openai";
-import { Option, parseQuestion, Question } from "./Question";
+import { Option, parseJsonQuestion, parseQuestion, Question } from "./Question";
 
 
 export class QuestionGenerator {
@@ -18,7 +18,7 @@ export class QuestionGenerator {
         if (res.choices.length == 0) {
             return null;
         }
-        const text = res.choices[0].text;
+        const text = res.choices[0].text?.trim();
 
         if (text == null) {
             return null;

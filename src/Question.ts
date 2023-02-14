@@ -4,9 +4,45 @@ function parseOption(text: string) : Option {
     return new Option(text.slice(3), text.slice(0, 1));
 }
 
+function parseJsonOption(opt: any) : Option {
+    return new Option(opt.text, opt.letter);
+}
+
+
+export function  parseJsonQuestion(json: string) {
+    console.log(`decode JSON response ${json}`);
+    
+    let obj = JSON.parse(json);
+
+    if (typeof obj.question != 'string') {
+        return null;
+    }
+
+    if (typeof obj.answers != 'object' || obj.answers.length == null) {
+        return null;
+    }
+
+    if (typeof obj.correctAnswer != 'string') {
+        return null;
+    }
+
+    const q = new Question(obj.question as string);
+    for (var a of (obj.answers as {text: string, letter: string}[])) {
+        if (a.letter != null) {
+            const opt = parseJsonOption(a);
+            q.addOption(opt);
+        }
+    }
+
+    q.answer = new Option('', obj.correctAnswer as string);
+
+    return q;
+}
+
 
 export function  parseQuestion(text: string) {
     console.log(`decode response ${text}`);
+    
     const lines = text.split(/\r?\n/);
 
     let q = '';
