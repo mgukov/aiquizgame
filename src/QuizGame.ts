@@ -24,7 +24,7 @@ export class QuizGame {
 
 
     isComplete() {
-        return this.questions.length >= this.questionCount && this.answers.length >= this.questionCount;
+        return this.questions.length >= this.questionCount || this.answers.length >= this.questionCount;
     }
 
     setAnswer(opt: Option) {
