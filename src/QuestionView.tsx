@@ -2,9 +2,7 @@ import { Button, FormControl, FormControlLabel, Radio, RadioGroup, Stack, styled
 import { ReactNode, useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
-import { StyledComponent } from "@emotion/styled";
 
 export const QuestionView = ({question, answer, onChange}: {question: Question, answer: string|null, onChange: (v:string) => void}) => {
     // useEffect(() => {

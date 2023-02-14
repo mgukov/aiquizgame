@@ -2,9 +2,7 @@ import { Button, FormControl, FormControlLabel, Radio, RadioGroup, Stack, styled
 import { ReactNode, useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
-import { StyledComponent } from "@emotion/styled";
 
 export const AnswerView = ({question, answer, right}: {question: Question, answer: string, right: string}) => {
 

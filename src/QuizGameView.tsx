@@ -2,16 +2,16 @@ import { Backdrop, Button, CircularProgress, Stack, styled } from "@mui/material
 import { ReactNode, useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { QuestionGenerator } from "./QuestionGenerator";
 import { Question } from "./Question";
 import { QuestionView } from "./QuestionView";
 import { QuizGame } from "./QuizGame";
 import { AnswerView } from "./AnswerView";
+import { JSONQuestionGenerator } from "./JSONQuestionGenerator";
 
 
 async function createGame() {
     const key =  await (await fetch('./openai.key')).text();
-    const generator =  new QuestionGenerator(key, 'test');
+    const generator =  new JSONQuestionGenerator(key, 'test');
 
     const topisc = ['NFL', 'NBA', 'NHL', 'Soccer', 'World History', 'Architecture', 'Climate', 'Space', 'Humor', 'Hollywood', 'TV', 'Books'];
     const game = new QuizGame(5, generator, topisc);
